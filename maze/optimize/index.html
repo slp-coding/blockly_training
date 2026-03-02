@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>吃金幣挑戰 - Blockly 練習</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    #left {
+      width: 75%;
+      padding: 10px;
+      box-sizing: border-box;
+      border-right: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      /* overflow: hidden; */
+      min-height: 0;
+    }
+    #right {
+      flex: 1;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    #blocklyDiv {
+      flex: 1;
+      min-height: 300px;
+      width: 100%;
+      height: calc(100vh - 160px);
+      border: 1px dashed #ddd;
+      position: relative;
+      overflow: hidden;
+    }
+    #controls {
+      margin-top: 10px;
+    }
+    #gameCanvas {
+      border: 1px solid #333;
+    }
+    #console {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      width: 320px;
+      height: 200px;
+      background: #111;
+      color: #0f0;
+      padding: 8px;
+      overflow-y: auto;
+      font-size: 12px;
+      display: none;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="left">
+    <h3>Blockly 程式</h3>
+    <div id="blocklyDiv"></div>
+
+    <div id="controls">
+      <button onclick="run()">▶️ 執行</button>
+      <button onclick="reset()">🔄 重置</button>
+      <button onclick="toggleConsole()">🪵 顯示/隱藏輸出</button>
+      <button onclick="exportProgram()">💾 匯出程式</button>
+      <button onclick="document.getElementById('importFile').click()">📂 匯入程式</button>
+      <button onclick="runAllVisible()">▶️ 測試所有可見地圖</button>
+      <button onclick="runAllWithHidden()">🧪 測試含隱藏地圖</button>
+      <input id="importFile" type="file" accept=".json" style="display:none" />
+    </div>
+
+    <pre id="console"></pre>
+  </div>
+
+  <div id="right">
+    <div>
+      關卡：
+      <select id="problemSelect"></select>
+    </div>
+
+    <h3>地圖</h3>
+    <div id="score">分數：0</div>
+    <canvas id="gameCanvas" width="360" height="180"></canvas>
+  </div>
+
+  <!-- Blockly -->
+  <script src="/common/blockly/blockly.min.js"></script>
+  <script src="/common/blockly/javascript.min.js"></script>
+  <script src="/common/blockly/msg/zh-hant.js"></script>
+
+  <!-- 你自己寫的 -->
+  <script src="blocks.js"></script>
+  <script src="generators.js"></script>
+  <script src="engine.js"></script>
+
+  <script>
+    // 把 console.log 轉到畫面上的小視窗（給學生 debug 用）
+    const consoleDiv = document.getElementById('console');
+    const oldLog = console.log;
+    console.log = function (...args) {
+      oldLog.apply(console, args);
+      consoleDiv.textContent += args.join(' ') + '\n';
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    };
+
+    function toggleConsole() {
+      consoleDiv.style.display = (consoleDiv.style.display === 'none') ? 'block' : 'none';
+    }
+
+    // ⭐ 統一在這裡初始化 Blockly（用外部 toolbox.xml）
+    window.addEventListener('load', async () => {
+      const res = await fetch('toolbox.xml');
+      console.log('fetch status =', res.status);
+      const xmlText = await res.text();
+      console.log('toolbox.xml length =', xmlText.length);
+      const parser = new DOMParser();
+      const toolbox = parser.parseFromString(xmlText, 'text/xml').documentElement;
+
+      initBlockly(toolbox);   // 交給 engine.js 處理 inject。先建 workspace + 插入系統積木
+      loadProblems();         // 先建 workspace + 插入系統積木
+      setTimeout(() => Blockly.svgResize(workspace), 0);
+    });
+  </script>
+
+</body>
+</html>

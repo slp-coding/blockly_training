@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blockly 程式設計練功場</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f6f7fb;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      text-decoration: none;
+      color: #222;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .emoji {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧩 Blockly 程式設計練功場</h1>
+  <div class="subtitle">選擇一個題型開始挑戰</div>
+
+  <div class="grid">
+    <a class="card" href="/maze/optimize/">
+      <span class="emoji">🧭</span>
+      <div class="title">迷宮吃金幣</div>
+      <div class="desc">最佳路徑、動態規劃</div>
+    </a>
+
+    <!--
+    <a class="card" href="/snake/">
+      <span class="emoji">🐍</span>
+      <div class="title">貪吃蛇</div>
+      <div class="desc">控制、條件判斷</div>
+    </a>
+
+    <a class="card" href="/rescue/">
+      <span class="emoji">🚑</span>
+      <div class="title">救援任務</div>
+      <div class="desc">邏輯與策略設計</div>
+    </a>
+    -->
+
+  </div>
+
+  <p style="margin-top:40px; color:#999;">
+    老師啟動方式：雙擊 launcher.bat
+  </p>
+</body>
+</html>
