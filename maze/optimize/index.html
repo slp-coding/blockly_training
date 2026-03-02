@@ -93,9 +93,9 @@
   </div>
 
   <!-- Blockly -->
-  <script src="/common/blockly/blockly.min.js"></script>
-  <script src="/common/blockly/javascript.min.js"></script>
-  <script src="/common/blockly/msg/zh-hant.js"></script>
+  <script src="../../common/blockly/blockly.min.js"></script>
+  <script src="../../common/blockly/javascript.min.js"></script>
+  <script src="../../common/blockly/msg/zh-hant.js"></script>
 
   <!-- 你自己寫的 -->
   <script src="blocks.js"></script>
@@ -108,6 +108,7 @@
     const oldLog = console.log;
     console.log = function (...args) {
       oldLog.apply(console, args);
+
       consoleDiv.textContent += args.join(' ') + '\n';
       consoleDiv.scrollTop = consoleDiv.scrollHeight;
     };
